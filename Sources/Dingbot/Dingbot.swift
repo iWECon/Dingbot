@@ -4,7 +4,7 @@
 
 #if os(iOS) || os(macOS)
 import Foundation
-#elseif os(linux)
+#elseif os(Linux)
 import FoundationNetworking
 #endif
 
