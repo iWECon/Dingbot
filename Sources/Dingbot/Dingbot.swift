@@ -28,7 +28,6 @@ fileprivate func hmacSHA256Base64String(string: String, key: String) -> String {
 public protocol DingbotMessage { func httpBody() -> Data? }
 
 // MARK: - Dingbot
-@available(macOS 12, iOS 15, watchOS 8, tvOS 15, *)
 public struct Dingbot {
     private init() { }
     public static var shared = Dingbot()
@@ -125,7 +124,7 @@ public struct Dingbot {
         urlRequest.allHTTPHeaderFields = [
             "Content-Type": "application/json; charset=utf-8"
         ]
-        let result = try await URLSession.shared.data(for: urlRequest, delegate: nil)
+        let result = try await URLSession.shared.data(for: urlRequest)
         let _response = (result.1 as! HTTPURLResponse)
         return (result.0, _response)
     }
