@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import CryptoKit
+import Crypto
 
 /// Encrypt string with key to hmacSHA256 and then to base64EncodedString
 /// - Parameters:
