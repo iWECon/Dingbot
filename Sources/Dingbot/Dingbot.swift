@@ -9,6 +9,7 @@ import FoundationNetworking
 import Foundation
 #endif
 
+#if compiler(>=5.5) && canImport(_Concurrency)
 import Crypto
 
 /// Encrypt string with key to hmacSHA256 and then to base64EncodedString
@@ -27,6 +28,7 @@ fileprivate func hmacSHA256Base64String(string: String, key: String) -> String {
 public protocol DingbotMessage { func httpBody() -> Data? }
 
 // MARK: - Dingbot
+@available(macOS 12, iOS 15, watchOS 8, tvOS 15, *)
 public struct Dingbot {
     private init() { }
     public static var shared = Dingbot()
@@ -123,9 +125,9 @@ public struct Dingbot {
         urlRequest.allHTTPHeaderFields = [
             "Content-Type": "application/json; charset=utf-8"
         ]
-        let (data, response) = try await URLSession.shared.data(for: urlRequest, delegate: nil)
-        let _response = (response as! HTTPURLResponse)
-        return (data, _response)
+        let result = try await URLSession.shared.data(for: urlRequest, delegate: nil)
+        let _response = (result.1 as! HTTPURLResponse)
+        return (result.0, _response)
     }
 }
 
@@ -235,3 +237,4 @@ public extension Dingbot {
         }
     }
 }
+#endif
