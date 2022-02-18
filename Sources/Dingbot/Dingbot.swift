@@ -2,7 +2,12 @@
 //  Created by iWw on 2022/1/26.
 //
 
+#if os(iOS) || os(macOS)
 import Foundation
+#elseif os(linux)
+import FoundationNetworking
+#endif
+
 import Crypto
 
 /// Encrypt string with key to hmacSHA256 and then to base64EncodedString
