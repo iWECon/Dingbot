@@ -2,10 +2,11 @@
 //  Created by iWw on 2022/1/26.
 //
 
-#if os(iOS) || os(macOS)
+#if (os(macOS) || os(iOS) || os(watchOS) || os(tvOS))
 import Foundation
 #elseif os(Linux)
 import FoundationNetworking
+import Foundation
 #endif
 
 import Crypto
