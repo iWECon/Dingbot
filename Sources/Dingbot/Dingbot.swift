@@ -4,6 +4,9 @@
 
 import Foundation
 import Crypto
+#if canImport(FoundationNetwork)
+import FoundationNetwork
+#endif
 
 /// Encrypt string with key to hmacSHA256 and then to base64EncodedString
 /// - Parameters:
@@ -102,7 +105,8 @@ public struct Dingbot {
         }
         return url
     }
-    
+
+    #if compiler(>=5.5) && canImport(_Concurrency)
     @discardableResult
     /// Send message with configure, use default when not set configure
     /// - Parameters:
@@ -117,10 +121,36 @@ public struct Dingbot {
         urlRequest.allHTTPHeaderFields = [
             "Content-Type": "application/json; charset=utf-8"
         ]
+        #if canImport(FoundationNetwork)
+        let (data, response) = try await linuxAsyncURLRequest(urlRequest: urlRequest)
+        #else
         let (data, response) = try await URLSession.shared.data(for: urlRequest, delegate: nil)
+        #endif
         let _response = (response as! HTTPURLResponse)
         return (data, _response)
     }
+    #endif
+    
+    #if compiler(>=5.5) && canImport(_Concurrency) && canImport(FoundationNetwork)
+    private func linuxAsyncURLRequest(urlRequest: URLRequest) async throws -> (data: Data, response: URLResponse) {
+        try await withCheckedThrowingContinuation({ continuation in
+            
+            URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    guard let data = data,
+                          let response = response
+                    else {
+                        continuation.resume(returning: (data: Data(), response: URLResponse()))
+                        return
+                    }
+                    continuation.resume(returning: (data: data, response: response))
+                }
+            }
+        })
+    }
+    #endif
 }
 
 
