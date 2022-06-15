@@ -20,7 +20,36 @@ iOS v13 or up;
 
 macOS v12 or up;
 
+# Vapor Support
+
+```swift
+import Vapor
+import Dingbot
+
+public extension Request {
+
+    var dingbot: Dingbot {
+        Dingbot.shared
+    }
+
+}
+
+public extension Application {
+
+    var dingbot: Dingbot {
+        Dingbot.shared
+    }
+
+}
+```
 
 # Install
 
+#### Contains Vapor use `1.0.0 ..< 2.0.0`
+
 `.package(url: "https://github.com/iWECon/Dingbot.git", from: "1.0.0")`
+
+
+#### No Vapor use `2.0.0 ...< 3.0.0` 
+
+`.package(url: "https://github.com/iWECon/Dingbot.git", from: "2.0.0")`
