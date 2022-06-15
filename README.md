@@ -16,7 +16,7 @@ DingTalk bot (webhook).
 
 使用 `concurrency`，可能需要支持的系统版本偏高：
 
-iOS v15 or up;
+iOS v13 or up;
 
 macOS v12 or up;
 
