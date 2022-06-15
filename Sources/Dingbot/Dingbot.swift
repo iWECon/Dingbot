@@ -138,7 +138,7 @@ public struct Dingbot {
                     }
                     continuation.resume(returning: (data: data, response: response))
                 }
-            }
+            }.resume()
         })
     }
     #endif
