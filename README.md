@@ -2,14 +2,39 @@
 
 DingTalk bot (webhook).
 
-钉钉自定义机器人，支持文本消息(Text Message)、连接消息（Link Message)以及Markdown Message.
+钉钉自定义机器人，支持文本消息(Text Message)、链接消息（Link Message)以及Markdown Message.
+
+支持 [Vapor](https://github.com/vapor/vapor).
 
 
 # Features
 
-支持全局定义accessToken、加密 key;
+支持全局统一或单独定义 accessToken、加签 signKey;
 
-支持独立定义accessToken、加密 key（可将消息发送给不同机器人）;
+```swift
+// 全局统一, 这里配置完成后, 使用 Dingbot.shared.send(_:) 默认均使用该配置
+Dingbot.shared.configure = Dingbot.Configure(accessToken: String, signKey: String)
+
+// 独立定义, 使用 .send(_:configure:) 时，将独立配置添加进去即优先使用独立配置
+Dingbot.shared.send(_ message: DingbotMessage, configure: Dingbot.Configure)
+```
+
+# DingbotMessage
+
+```swift
+// 文本消息 TextMessage
+
+Dingbot.TextMessage("Input your text message", at: `Dingbot.At?`)
+
+// 链接消息 LinkMessage
+Dingbot.LinkMessage(title: String, text: String, messageUrl: String, picUrl: String? = nil)
+
+// 富文本 MarkdownMessage
+Dingbot.MarkdownMessage(title: String, content: String, at: Dingbot.At? = nil)
+
+// Dingbot.At
+Dingbot.At(atMobiles: [String]? = nil, atUserIds: [String]? = nil, isAtAll: Bool = false)
+```
 
 
 # Platform version
@@ -44,12 +69,5 @@ public extension Application {
 ```
 
 # Install
-
-#### Contains Vapor use `1.0.0 ..< 2.0.0`
-
-`.package(url: "https://github.com/iWECon/Dingbot.git", from: "1.0.0")`
-
-
-#### No Vapor use `2.0.0 ...< 3.0.0` 
 
 `.package(url: "https://github.com/iWECon/Dingbot.git", from: "2.0.0")`
