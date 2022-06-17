@@ -3,7 +3,11 @@
 //
 
 import Foundation
+#if os(Linux)
 import Crypto
+#else
+import CryptoKit
+#endif
 
 /// Encrypt string with key to hmacSHA256 and then to base64EncodedString
 /// - Parameters:
@@ -118,12 +122,12 @@ public struct Dingbot {
         urlRequest.allHTTPHeaderFields = [
             "Content-Type": "application/json; charset=utf-8"
         ]
-        let (data, response) = try await linuxAsyncURLRequest(urlRequest: urlRequest)
+        let (data, response) = try await compatiableAsyncURLRequest(urlRequest)
         let _response = (response as! HTTPURLResponse)
         return (data, _response)
     }
     
-    private func linuxAsyncURLRequest(urlRequest: URLRequest) async throws -> (data: Data, response: URLResponse) {
+    private func compatiableAsyncURLRequest(_ urlRequest: URLRequest) async throws -> (data: Data, response: URLResponse) {
         try await withCheckedThrowingContinuation({ continuation in
             
             URLSession.shared.dataTask(with: urlRequest) { data, response, error in

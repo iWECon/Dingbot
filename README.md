@@ -34,6 +34,10 @@ Dingbot.MarkdownMessage(title: String, content: String, at: Dingbot.At? = nil)
 
 // Dingbot.At
 Dingbot.At(atMobiles: [String]? = nil, atUserIds: [String]? = nil, isAtAll: Bool = false)
+
+// send
+let (data, response) = try await Dingbot.shared.send(Dingbot.TextMessage/LinkMessage/MarkdownMessage)
+     ⬆️ Data, ⬆️ URLResponse
 ```
 
 

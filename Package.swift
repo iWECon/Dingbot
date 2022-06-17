@@ -24,7 +24,7 @@ let package = Package(
         .target(
             name: "Dingbot",
             dependencies: [
-                .product(name: "Crypto", package: "swift-crypto")
+                .productItem(name: "Crypto", package: "swift-crypto", condition: .when(platforms: [.linux]))
             ]
         ),
         .testTarget(
