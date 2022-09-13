@@ -138,13 +138,7 @@ public struct Dingbot {
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else {
-                    guard let data = data,
-                          let response = response
-                    else {
-                        continuation.resume(returning: (data: Data(), response: URLResponse()))
-                        return
-                    }
-                    continuation.resume(returning: (data: data, response: response))
+                    continuation.resume(returning: (data: data!, response: response!))
                 }
             }.resume()
         })
