@@ -49,6 +49,8 @@ iOS v13 or up;
 
 macOS v12 or up;
 
+linux swift >= 5.6.1;
+
 # Vapor Support
 
 ```swift
